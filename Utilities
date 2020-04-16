@@ -1,0 +1,53 @@
+public class Utilities {
+
+    public char [] everyNthChar(char[] sourceArray, int n){
+        if (sourceArray == null || sourceArray.length<n){
+            return sourceArray;
+        }
+        int returnedLength = sourceArray.length/n;
+        char[]result = new char [returnedLength];
+        int index = 0;
+
+        for (int i =n-1; i< sourceArray.length; i++){
+            if ((i+1)%n==0){
+                result[index]=sourceArray[i];
+                index++;
+            }
+        }
+        return result;
+    }
+
+    public String removePairs (String source){
+
+        if ( source == null || source.length()<2){
+            return source;
+        }
+
+        StringBuffer sb = new StringBuffer();
+        char [] string = source.toCharArray();
+
+        for (int i=0; i<string.length-1; i++){
+            System.out.println(i);
+            if (string[i] != string[i+1]){
+                sb.append(string[i]);
+            }
+        }
+        sb.append(string[string.length-1]);
+        String result = sb.toString();
+        return result;
+    }
+
+    public int converter (int a, int b){
+        if (b==0){
+            throw new IllegalArgumentException();
+        }
+        return (a/b) + (a*30) - 2;
+    }
+
+    public String nullIfOddLength (String source){
+        if ((source.length())%2 == 0){
+            return source;
+        }
+        return null;
+    }
+}
