@@ -1,0 +1,85 @@
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class UtilitiesTest {
+    Utilities utilities;
+    @org.junit.jupiter.api.BeforeEach
+    void setup(){
+        utilities = new Utilities();
+    }
+    @ParameterizedTest
+    private static Stream<Arguments> everyNthCharArg(){
+      return Stream.of(  Arguments.of("ABCDEF", "ABCDEFF"),
+        Arguments.of("AB8EFG", "AB88EFFG"),
+        Arguments.of("123456", "112233445566"),
+        Arguments.of("ZYZQB", "ZYZQQB"),
+        Arguments.of("A", "A")
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource ("everyNthCharArg")
+    void removePair(String expected, String source){
+        assertEquals(expected, utilities.removePairs(source));
+
+    }
+
+    @org.junit.jupiter.api.Test
+    void everyNthCharNormal() {
+        assertArrayEquals(new char[]{'e', 'l'},  utilities.everyNthChar("hello".toCharArray(), 2));
+    }
+
+    @org.junit.jupiter.api.Test
+    void everyNthCharLessThanN(){
+        assertArrayEquals("hello".toCharArray(), utilities.everyNthChar("hello".toCharArray(), 10));
+    }
+
+    @org.junit.jupiter.api.Test
+    void everyNthCharNull(){
+        assertNull(utilities.everyNthChar(null, 1));
+    }
+
+    @org.junit.jupiter.api.Test
+    void removePairsDoubleEnd() {
+        assertEquals("ABCDEF", utilities.removePairs("AABBCDDEFF"));
+    }
+
+    @org.junit.jupiter.api.Test
+    void removePairsNull(){
+        assertNull(utilities.removePairs(null));
+    }
+
+    @org.junit.jupiter.api.Test
+    void removePairsDoubleCharacter (){
+        assertEquals("A", utilities.removePairs("AA"));
+    }
+    @org.junit.jupiter.api.Test
+    void removeParsSingleEnd(){
+        assertEquals("ABCDEF", utilities.removePairs("ABBCDDEEF"));
+    }
+
+    @org.junit.jupiter.api.Test
+    void converter() {
+        assertEquals(300, utilities.converter(10,5));
+    }
+
+    @org.junit.jupiter.api.Test
+    void converterDivideByZero(){
+        assertThrows(IllegalArgumentException.class, ()->utilities.converter(5, 0));
+    }
+
+    @org.junit.jupiter.api.Test
+    void nullIfOddLength() {
+        assertNull(utilities.nullIfOddLength("Hello"));
+    }
+
+    @org.junit.jupiter.api.Test
+    void nullIfOddLengthEven(){
+        assertEquals("Hell", utilities.nullIfOddLength("Hell"));
+    }
+}
